@@ -1,8 +1,49 @@
-a.Procceser is a virtual core that can run one process at a time
-Core is a physical core on the cpu thats present (it can have 1 or 2 proccesers or logical core
+# Assignment Week 1 
 
-b.6 cores .When I did more /proc/cpuinfo under each procceser was a heading cpu_cores.(This was the virtual machine my normal computer has 24 cores)
 
-c.6 proccesers. When I did more /proc/cpuinfo the processor ids started from 0 and ended at 5 therefore a total of 6.(My normal computer has 32)
+---
 
-d.
+## 1. /proc
+
+- **Processor:** Virtual core capable of running one process at a time.  
+- **Core:** Physical CPU core, may contain one or more logical processors.
+
+- **Number of Cores:** 6 (from a virtual machine, physical machine has 24 cores)  
+- **Number of Processors:** 6 (processor IDs range from 0 to 5, physical machine has 32 processors)  
+- **CPU Frequency:** 2419.2 MHz (from `/proc/cpuinfo`)  
+- **Architecture:** x86_64 (64-bit), from `lscpu` output  
+- **Total Memory:** 3.9 GB (from `free -h`)  
+- **Available Memory:** 3.2 GB (difference used by cache for performance)  
+- **Context Switches since Boot:** 182,545  
+- **Process Clones:** 2,838  
+- (Context switches and clones from `/proc/stat`)
+
+---
+
+## 2. Top
+
+- **Process ID (PID):** 2063  
+- **CPU Usage:** 99.7% - 100% (observed with `top`, no other significant CPU usage)  
+- **Memory Usage:** 792 KB  
+- **Process State:** Running
+
+---
+
+## 3. Memory
+
+| Program  | Virtual Memory (KB) | Physical Memory (KB) | Description                                   |
+|----------|--------------------|---------------------|-----------------------------------------------|
+| memory_1 | 8,296              | 792                 | Declares a large array but does not initialize it; minimal physical memory usage. |
+| memory_2 | 8,304              | 3,240               | Declares and initializes half the array; increased physical memory usage. |
+
+### Explanation
+
+- Both programs allocate the same virtual memory space for the large array.  
+- Physical memory differs due to **lazy allocation** by the OS — physical RAM is assigned only when memory pages are accessed (written).  
+- In `memory_1`, the array is untouched, so physical memory usage is low, reflecting just the program’s basic runtime needs.  
+- In `memory_2`, half the array is written to, causing the OS to commit physical pages, increasing RAM usage.
+
+---
+
+## 4. strace
+
