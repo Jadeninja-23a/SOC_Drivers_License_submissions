@@ -45,4 +45,6 @@
 
 ---
 
+## 6. Process? Which Process?
+![image](https://github.com/user-attachments/assets/8d9f9783-4b1a-44a5-8d80-2023ff079a6b)
 
